@@ -9,8 +9,8 @@ const vscode = require('vscode');
  * @param {vscode.ExtensionContext} context
  */
 function activate(context) {
-
-	// Use the console to output diagnostic information (console.log) and errors (console.error)
+	const fs = require('fs')
+	
 	// This line of code will only be executed once when your extension is activated
 	console.log('Congratulations, your extension "identifierRemover" is now active!');
 
@@ -19,10 +19,22 @@ function activate(context) {
 	// The commandId parameter must match the command field in package.json
 	let disposable = vscode.commands.registerCommand('identifierRemover.helloWorld', function () {
 		// The code you place here will be executed every time your command is executed
-
+		fs.watch('./', {
+			recursive: true,
+		}, (eventType, filename) => {
+			console.log(eventType, filename);
+			vscode.window.showInformationMessage('WSL .Identifier Remover removed a .Identifier file');
+		 });
 		// Display a message box to the user
-		vscode.window.showInformationMessage('Hello World from WSL .Identifier Remover!');
+		vscode.window.showInformationMessage('WSL .Identifier Remover removed a .Identifier file');
 	});
+
+	fs.watch('./', {
+		recursive: true,
+	}, (eventType, filename) => {
+		console.log(eventType, filename);
+		vscode.window.showInformationMessage('WSL .Identifier Remover removed a .Identifier file');
+	 });
 
 	context.subscriptions.push(disposable);
 }
